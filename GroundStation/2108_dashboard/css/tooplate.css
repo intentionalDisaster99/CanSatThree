@@ -1,5 +1,5 @@
  /*
- 
+
 COLOR CODES
 
   Dark Gray: #656565
@@ -389,19 +389,29 @@ footer {
 }
 
 .battery {
-    --n: 6; /* the number of bar */
+    --n: 0; /* the number of bar */
     --g: 5px; /* the gap  */
     
     width: 200px; /* control the size */
-    color: #2A363B;
+    color: #000000;
     aspect-ratio: 2;
     border: var(--g) solid;
     padding: var(--g);
     border-radius: 10px;
-    background: repeating-linear-gradient(90deg, currentColor 0 calc(100% / var(--n) - var(--g)), #0000 0 calc(100% / var(--n))) 0 0 / calc(100% + var(--g)) content-box;
+    background: repeating-linear-gradient(90deg, currentColor 0 calc(100% / var(--n) - var(--g)),
+    hsla(0, 21%, 81%, 0) 0 calc(100% / var(--n))) 0 0 / calc(100% + var(--g)) content-box;
     position: relative;
     box-sizing: border-box;
 }
+
+.batteryInner {
+
+  background-color:green;
+  height: 100%;
+  
+
+}
+
 .battery:before {
     content: "";
     position: absolute;
@@ -409,6 +419,21 @@ footer {
     background: currentColor;
 }
 
+.bat-header {
+  margin: 20px;
+  width: auto;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.bat-level {
+
+}
+
+.bat-background {
+  background-color: rgba(211, 211, 211, 0.1);
+}
 
 .tm-login-col {
   max-width: 600px;

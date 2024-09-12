@@ -5,6 +5,11 @@ function updateBatteryStatus(battery) {
         .textContent =
         `${battery.level * 100}%`;
 
+    if (battery.level <= 100) {
+        batteryInner.style.width = battery.level * 100 + '%';
+    }
+    console.log(battery.level);
+
 
     document.getElementById('charging-status')
         .textContent =
@@ -13,7 +18,10 @@ function updateBatteryStatus(battery) {
 
 
 
+// Updating the battery
+setInterval(function () {
 
+}, 100)
 
 
 navigator.getBattery().then(function (battery) {
