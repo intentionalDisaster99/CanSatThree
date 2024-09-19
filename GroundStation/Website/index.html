@@ -80,14 +80,13 @@
             <div class="row tm-content-row tm-mt-big">
                 <div class="tm-col tm-col-big">
                     <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Latest Hits</h2>
+                        <h2 class="tm-block-title" style="text-align: center; width:auto;">Altitude</h2>
                         <canvas id="lineChart"></canvas>
                     </div>
                 </div>
                 <div class="tm-col tm-col-big">
                     <div class="bg-white tm-block h-100">
                         <h2 class="tm-block-title">Performance</h2>
-                        <canvas id="barChart"></canvas>
                     </div>
                 </div>
                 <div class="tm-col tm-col-small rounded bat-background">
@@ -98,16 +97,16 @@
                         <button type="button" class="btn bat-level">
                         Battery Level <span id="battery-level" class="badge "> Pending</span>
                         </button>
+                        <div style="align-content: center;width: 100%;">
                         <div class = "battery"><div id="batteryInner" class ="batteryInner"></div></div>
                         <!-- <button type="button" class="btn btn-info">
                         Charging Status <p id="charging-status" class="badge bg-secondary">Pending</span>
                         -->
                         <!-- </button>  -->
                         <div></div>
+                        </div>
                     </div>
 
-
-                    <script src="js/battery.js"></script>
                 </div>
 
                 <div class="tm-col tm-col-big">
@@ -200,7 +199,13 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
     <script src="js/tooplate-scripts.js"></script>
+    <!--The charts' js-->
+    <script type="module" src="js/Chart.min.js"></script>
+    <!--The battery's js-->
+    <script src="js/battery.js"></script>   
     <script>
+
+        // Setting up the charting :D
         let ctxLine,
             ctxBar,
             ctxPie,
@@ -210,8 +215,9 @@
             configLine,
             configBar,
             configPie,
-            lineChart;
-        barChart, pieChart;
+            lineChart,
+            barChart,
+            pieChart;
         // DOM is ready
         $(function () {
             updateChartOptions();
