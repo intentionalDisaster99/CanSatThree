@@ -31,29 +31,6 @@ function drawLineChart() {
           "May",
           "June",
           "July"
-        ],
-        datasets: [
-          {
-            label: "Latest Hits",
-            data: [88, 68, 79, 57, 56, 55, 70],
-            fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            lineTension: 0.1
-          },
-          {
-            label: "Popular Hits",
-            data: [33, 45, 37, 21, 55, 74, 69],
-            fill: false,
-            borderColor: "rgba(255,99,132,1)",
-            lineTension: 0.1
-          },
-          {
-            label: "Featured",
-            data: [44, 19, 38, 46, 85, 66, 79],
-            fill: false,
-            borderColor: "rgba(153, 102, 255, 1)",
-            lineTension: 0.1
-          }
         ]
       },
       options: optionsLine
@@ -185,7 +162,7 @@ function updateBarChart() {
 }
 
 function reloadPage() {
-  setTimeout(function() {
+  setTimeout(function () {
     window.location.reload();
   }); // Reload the page so that charts will display correctly
 }
@@ -216,7 +193,7 @@ function drawCalendar() {
         {
           title: "Company Trip",
           start: "2018-10-25",
-		  end: "2018-10-27"
+          end: "2018-10-27"
         },
         {
           title: "Review",
