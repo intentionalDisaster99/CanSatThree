@@ -18,13 +18,22 @@ body {
 }
 
 body {
-  background-image: url(../img/BlackHoleBackground.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
   padding-left: 50px;
   padding-right: 50px;
+}
+
+/* Changing the background of the 404 */
+.fourOFour {
+  background-image: url(../img/404PageImage1-5.jpg);
+}
+
+
+.mainBackground {
+  background-image: url(../img/BlackHoleBackground.png);
 }
 
 .bg02 {
@@ -54,6 +63,7 @@ a:focus {
 /* This is where we can put our logo assuming we ever get one */
 .tm-site-icon {
   color: #656565;
+  height: 4rem;
 }
 
 .tm-site-title {
@@ -426,9 +436,9 @@ footer {
 
 }
 
-.bat-level {
+/* .bat-level {
 
-}
+} */
 
 .bat-background {
   background-color: rgba(211, 211, 211, 0.1);
