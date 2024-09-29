@@ -9,21 +9,29 @@ window.chartColors = {
   blue: "rgb(54, 162, 235)",
   purple: "rgb(153, 102, 255)",
   grey: "rgb(201, 203, 207)",
-  black: "rgb(255, 255, 255)"
+  black: "rgb(255, 255, 255)",
+  white: "rgb(255, 255, 255)"
 
 };
 
 // The data that we have 
 class Data {
   constructor() {
+
+    // The raw data
     this.time = [];
     this.samples = [];
+
+    // The data in a format that we can use to push to the csv format
+    this.csv = [];
+
   }
 
   // Adding a sample to the list
   addSample(time, sample) {
     this.time.push(time);
     this.samples.push(sample);
+    this.csv.push([time, sample]);
   }
 }
 
@@ -100,14 +108,22 @@ var config = {
         display: true,
         title: {
           display: true,
-          text: 'Time'
+          text: 'Time',
+          color: "white" // Change X-axis title color
+        },
+        ticks: {
+          color: 'white' // Change X-axis label color
         }
       },
       y: {
         display: true,
         title: {
           display: true,
-          text: 'Altitude (meters)'
+          text: 'Altitude (meters)',
+          color: 'white' // Change Y-axis title color
+        },
+        ticks: {
+          color: 'white' // Change Y-axis label color
         }
       }
     }
@@ -148,7 +164,13 @@ function updateChart() {
 
   config.data.labels = data.time;
   config.data.datasets[0].data = data.samples;
-  window.myLine.update();
+  // Making sure that the line graph is actually updated 
+  if (window.myLine != undefined) {
+    // Calling the function again and then returning
+    // updateChart
+    window.myLine.update();
+  }
+
 }
 
 // Setting up the automatic updating of the chart
@@ -159,3 +181,25 @@ window.onload = function () {
   var ctx = document.getElementById('lineChart').getContext('2d');
   window.myLine = new Chart(ctx, config);
 };
+
+
+// Now to save this as a CSV file
+function downloadCSV(data, filename) {
+  var csv = 'Time,Data\n';
+  data.forEach(function (row) {
+    csv += row.join(',');
+    csv += "\n";
+  });
+
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var url = window.URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.setAttribute('hidden', '');
+  a.setAttribute('href', url);
+  a.setAttribute('download', filename);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// Now to read to the file
