@@ -5,6 +5,9 @@ var path = require('path');
 // A simple function that will only run if debugging is set to true 
 var debugging = false;
 
+// The data that is received from the XBee
+var data = "";
+
 function debug(inputtedString) {
 
     // This literally prints out whatever it is if the script is set to debugging 
@@ -116,7 +119,7 @@ port1.on('open', function () {
         if (err) {
             return console.log('Error writing to XBee:', err.message);
         }
-        console.log('Message sent to XBee:', frame_obj.data);
+        debug('Message sent to XBee:', frame_obj.data);
     });
 });
 
@@ -126,9 +129,13 @@ xbeeAPI.on("frame_object", function (frame) {
     debug("Received frame:", frame);
     // Process the incoming frame here
     if (frame.type === C.FRAME_TYPE.ZIGBEE_RECEIVE_PACKET) {
-        var data = frame.data.toString('utf8');
-        debug('Data received from XBee:', data);
-        console.log(data);
+        data += frame.data.toString('utf8');
+        if (data.substring(data.length - 2) == "\\n") {
+            console.log("Saved:\n" + data);
+            fs.writeFileSync('telemetry.csv', data);
+            data = "";
+        }
+        debug(data);
     }
 });
 
@@ -138,8 +145,71 @@ port1.on('error', function (err) {
 });
 
 
+// Sends a message to the XBee in a simple format
+function send(message) {
+
+
+    // Sending a frame to the XBee
+    var frame_obj = {
+        type: C.FRAME_TYPE.TX_REQUEST_64,     // Frame type
+        destination64: "0013A20041D88202",
+        data: message
+    };
+
+    // Write the frame to the XBee
+    port1.write(xbeeAPI.buildFrame(frame_obj), function (err) {
+        if (err) {
+            return console.log('Error writing to XBee:', err.message);
+        }
+        debug('Message sent to XBee:', frame_obj.data);
+    });
+
+}
+
+// Saving the data
+function checkToSave() {
+
+    // console.log(data.substring(data.length - 2));
+
+    // Adding in the data if the last input was '\n'
+    if (data.substring(data.length - 2, 0) === "\\n") {
+        console.log("Saved:\n" + data);
+        fs.writeFileSync('telemetry.csv', data);
+        data = "";
+    }
+
+}
+setInterval(checkToSave, 0);
 
 
 
+// TODO check to see if we should stop transmitting telemetry when we turn it off or if we should stop when it hits the ground
 
+/*
+
+    Okay, so now we get to the data understanding phase
+    We will be using a return character to mean the end of a line and then an escape character to tell when each value is done.
+    The escape character will be a comma, ","
+    The return character will be the newline string, "\n", so what we will be receiving will look like this:
+
+    TEAM_ID,MISSION_TIME,PACKET_COUNT,SW_STATE,PL_STATE,ALTITUDE,TEMP,VOLTAGE,GPS_LATITUDE,GPS_LONGITUDE,GYRO_R,GYRO_P, GYRO_Y\n
+
+    This will make it simpler to convert it to the CSV format
+
+    At the end of the mission, we will receive the "END" signal, when we stop adding it to the CSV file.
+
+*/
+
+
+// // Writing to the csv file
+// const dataTemp = [
+//     ['Name', 'Age', 'City'],
+//     ['John', 25, 'New York'],
+//     ['Jane', 30, 'London']
+// ];
+
+
+// csvData = dataTemp.map(row => row.join(',')).join('\n');
+
+// fs.writeFileSync('telemetry.csv', data);
 
