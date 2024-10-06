@@ -2,6 +2,18 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 
+// A simple function that will only run if debugging is set to true 
+var debugging = false;
+
+function debug(inputtedString) {
+
+    // This literally prints out whatever it is if the script is set to debugging 
+    if (debugging) {
+        console.log(inputtedString);
+    }
+
+}
+
 http.createServer(function (req, res) {
     var filePath = path.join(__dirname, '..\\..\\..\\..\\CanSatThree\\GroundStation\\Website', req.url);
     if (filePath === path.join(__dirname, '..\\..\\..\\..\\CanSatThree\\GroundStation\\Website\\')) {
@@ -82,14 +94,20 @@ const port1 = new SerialPort({
     parser: xbeeAPI.rawParser()  // Use the xbeeAPI rawParser to handle XBee frames
 });
 
+// Handle incoming data frames
+port1.on('data', function (data) {
+    xbeeAPI.parseRaw(data);
+});
+
 // When the serial port is successfully opened
 port1.on('open', function () {
-    console.log('Serial port opened for XBee communication.');
 
-    // Send a simple frame to the XBee
+    debug('Serial port opened for XBee communication.');
+
+    // Sending a frame to the XBee
     var frame_obj = {
         type: C.FRAME_TYPE.TX_REQUEST_64,     // Frame type
-        destination64: "0013A20041D88202",    // Replace with your XBee's destination address
+        destination64: "0013A20041D88202",
         data: "CONNECTION ESTABLISHED\n"
     };
 
@@ -104,7 +122,14 @@ port1.on('open', function () {
 
 // Listen for incoming data frames
 xbeeAPI.on("frame_object", function (frame) {
-    console.log("Received frame:", frame);
+
+    debug("Received frame:", frame);
+    // Process the incoming frame here
+    if (frame.type === C.FRAME_TYPE.ZIGBEE_RECEIVE_PACKET) {
+        var data = frame.data.toString('utf8');
+        debug('Data received from XBee:', data);
+        console.log(data);
+    }
 });
 
 // Error handling for the serial port
