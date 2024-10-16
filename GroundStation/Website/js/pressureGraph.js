@@ -32,8 +32,8 @@
     // Getting the dimensions of the graph
     var pressureContainer = document.getElementById("pressure-container");
     var widthPressure = pressureContainer.offsetWidth * 0.7;
-    var heightPressure = pressureContainer.offsetHeight * 0.8;
-    var marginPressure = { top: 20, right: 0, bottom: 70, left: 50 };
+    var heightPressure = pressureContainer.offsetHeight * 0.7;
+    var marginPressure = { top: 20, right: 0, bottom: 70, left: 55 };
 
     // Adjust width and height to account for margins
     var innerWidthPressure = widthPressure - marginPressure.left - marginPressure.right;
@@ -65,7 +65,7 @@
     // Append the line to the SVG
     var pathPressure = svgPressure.append("path")
         .attr("fill", "none")
-        .attr("stroke", "red")
+        .attr("stroke", "green")
         .attr("stroke-width", 3.5);
 
     // Add X-axis with time labels
@@ -129,7 +129,7 @@
     // Add new data point with time and pressure when user clicks
     function graphPressure(event) {
         nowPressure = new Date();
-        pressureData.push(1000 - event.clientX);  // Add new pressure value
+        pressureData.push(event.clientX);  // Add new pressure value
         pressureTimes.push(nowPressure);  // Push the new Date object
 
         // Set the time of the first data point

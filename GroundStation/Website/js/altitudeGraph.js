@@ -32,8 +32,8 @@
   // Getting the dimensions of the graph
   var altitudeContainer = document.getElementById("altitude-container");
   var widthAltitude = altitudeContainer.offsetWidth * 0.7;
-  var heightAltitude = altitudeContainer.offsetHeight * 0.8;
-  var marginAltitude = { top: 20, right: 0, bottom: 70, left: 50 };
+  var heightAltitude = altitudeContainer.offsetHeight * 0.7;
+  var marginAltitude = { top: 20, right: 0, bottom: 70, left: 55 };
 
   // Adjust width and height to account for margins
   var innerWidthAltitude = widthAltitude - marginAltitude.left - marginAltitude.right;
