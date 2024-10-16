@@ -26,7 +26,7 @@ setInterval(() => {
         // Battery Information
         updateBatteryStatus(battery);
     });
-}, 1000);
+}, 100);
 
 
 

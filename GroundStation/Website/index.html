@@ -12,85 +12,64 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/tooplate.css">
     <link rel="shortcut icon" type="image/x-icon" href="/Website/img/favicon.ico" />
-</head>
+</head> 
 
-<body id="reportsPage" class="mainBackground">
+<body id="main" class="mainBackground">
     <div class="" id="home">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-                        <a class="navbar-brand" href="index.html">
+                    <nav id="navbar" class="navbar navbar-expand-xl navbar-dark bg-dark">
+                        <a id="mocrLabel" class="navbar-brand" href="index.html">
 
                             <!-- We don't have an icon regrettably -->
                             <!-- <i class="fas fa-3x fa-tachometer-alt tm-site-icon"></i> -->
                             <h1 class="tm-site-title mb-0" style="margin-right:20px">Mission Control</h1>
                         </a>
-                        <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                        <!-- <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="true" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
-                        </button>
+                        </button> -->
 
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
                             <ul class="navbar-nav mx-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" style="padding-left:200px;" href="index.html">Dashboard
+                                    <a class="nav-link active" style="margin:auto;height: 100%;" href="index.html">Dashboard
                                         <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Reports
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">Daily Report</a>
-                                        <a class="dropdown-item" href="#">Weekly Report</a>
-                                        <a class="dropdown-item" href="#">Yearly Report</a>
-                                    </div>
-                                </li> -->
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" href="products.html">Products</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="accounts.html">Accounts</a>
-                                </li> -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Settings
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">Profile</a>
-                                        <a class="dropdown-item" href="#">Billing</a>
-                                        <a class="dropdown-item" href="#">Customize</a>
-                                    </div>
+        
+                                
+                                <li>
+                                    <div id="modeChange" onclick="changeBackground()" class="nav-link active" style="text-align: center; height: 100%;">Light Mode</div>
                                 </li>
                             </ul>
       
-                        </div>
+                        <!-- </div> -->
                     </nav>
                 </div>
             </div>
             <!-- row -->
-            <div class="row tm-content-row tm-mt-big">
+            <div class="row t-m-content-row tm-mt-big">
                 <div class="tm-col tm-col-big">
-                    <div class="tm-block h-100" style="background-color: rgba(211, 211, 211, 0.1);">
-                        <h2 class="tm-block-title" style="text-align: center; width:auto;color:white;">Altitude</h2>
-                        <canvas id="lineChart"></canvas>
+                    <div id="altitude-container" class="tm-block " style="background-color: rgba(211, 211, 211, 0.1); height: 100vh;">
+                        <h2 class="tm-block-title card-title card-title-darkMode" >Altitude</h2>
+                        <!-- <canvas width="400" height="400" style="font-size:larger;" id="lineChart"></canvas> -->
+                        <div id="chart"></div>
                     </div>
                 </div>
-                <div class="tm-col tm-col-big">
-                    <div class="tm-block h-100" style="background-color: rgba(211, 211, 211, 0.1);">
-                        <h2 class="tm-block-title" style="text-align: center; width:auto;color:white;">Performance</h2>
+                 <div class="tm-col tm-col-big">
+                    <div id="pressure-container" class="tm-block " style="background-color: rgba(211, 211, 211, 0.1); height: 100vh;">
+                        <h2 class="tm-block-title card-title card-title-darkMode" >Pressure</h2>
+                        <!-- <canvas width="400" height="400" style="font-size:larger;" id="lineChart"></canvas> -->
+                        <div id="chart"></div>
                     </div>
                 </div>
                 <div class="tm-col tm-col-small rounded bat-background" style="align-items:center;text-align:center;">
                     <!-- <div class="bg-white tm-block h-100">
                         <canvas id="pieChart" class="chartjs-render-monitor"></canvas>
                     </div> -->
-                    <div class="bat-header"><h2 class="tm-block-title" style="text-align: center; width:auto;color:white;">Battery</h2></div>
+                    <div class="bat-header"><h2 class="tm-block-title card-title-darkMode card-title" >Battery</h2></div>
                         <button type="button" class="btn bat-level">
                         Battery Level <span id="battery-level" class="badge "> Pending</span>
                         </button>
@@ -183,54 +162,21 @@
             </footer>
         </div>
     </div>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
-    <script src="js/moment.min.js"></script>
-    <!-- https://momentjs.com/ -->
-    <script src="js/utils.js"></script>
-    <script src="js/Chart.min.js"></script>
-    <!-- http://www.chartjs.org/docs/latest/ -->
-    <script src="js/fullcalendar.min.js"></script>
-    <!-- https://fullcalendar.io/ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- The charts' js-->
-    <script type="module" src="js/Chart.min.js"></script>
+
+    <!-- The graphs -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <!-- The different graph's js -->
+    <script src="js/altitudeGraph.js"></script>
+    <script src="js/pressureGraph.js"></script>
     <!-- The battery's js-->
     <script src="js/battery.js"></script>    
     <!-- Connecting the XBeeConnect.js to the node server -->
-     <script src="js/bundle.js"></script>
+     <!-- <script src="js/bundle.js"></script> -->
+    <!-- Adding in any active styling -->
+    <script src="js/styling.js"></script>
 
 
-    <script>
 
-        // Setting up the charting :D
-        let ctxLine,
-            ctxBar,
-            ctxPie,
-            optionsLine,
-            optionsBar,
-            optionsPie,
-            configLine,
-            configBar,
-            configPie,
-            lineChart,
-            barChart,
-            pieChart;
-        // DOM is ready
-        $(function () {
-            updateChartOptions();
-            drawLineChart(); // Line Chart
-            drawBarChart(); // Bar Chart
-            drawPieChart(); // Pie Chart
-            drawCalendar(); // Calendar
-
-            $(window).resize(function () {
-                updateChartOptions();
-                updateLineChart();
-                updateBarChart();
-                reloadPage();
-            });
-        })
-    </script>
 </body>
 </html>

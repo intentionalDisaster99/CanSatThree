@@ -594,3 +594,39 @@ footer {
   }
 }
 
+.navbar {
+    height: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 50px;
+    transition: background-color 0.3s;
+}
+.navbar-light {
+    background-color: #f8f9fa !important;
+    color: #000;
+}
+
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 5px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* The titles for each card */
+.card-title-darkMode {
+  text-align: center;
+  width: auto;
+  color: white;
+}
+
+.card-title-lightMode {
+  text-align: center;
+  width: auto;
+  color: black;
+}
