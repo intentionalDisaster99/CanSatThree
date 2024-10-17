@@ -6,6 +6,7 @@ function changeBackground() {
     var button = document.getElementById('modeChange');
     var navbar = document.getElementById('navbar');
     var cardLabels = document.getElementsByClassName('card-title');
+    var coords = document.getElementsByClassName('coord');
 
     // Changing the right way
     if (button.textContent == "Light Mode") {
@@ -26,6 +27,13 @@ function changeBackground() {
 
             item.classList.remove("card-title-darkMode");
             item.classList.add("card-title-lightMode");
+
+        }
+
+        // Changing the class of the coordinates
+        for (let item of coords) {
+
+            item.style.color = "black";
 
         }
 
@@ -50,6 +58,13 @@ function changeBackground() {
 
             item.classList.remove("card-title-lightMode");
             item.classList.add("card-title-darkMode");
+
+        }
+
+        // Changing the class of the coordinates
+        for (let item of coords) {
+
+            item.style.color = "white";
 
         }
 

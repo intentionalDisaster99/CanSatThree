@@ -1,6 +1,7 @@
-var http = require('http');
-var fs = require('fs');
-var path = require('path');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // A simple function that will only run if debugging is set to true 
 var debugging = false;
@@ -9,15 +10,22 @@ var debugging = false;
 var data = "";
 
 function debug(inputtedString) {
-
-    // This literally prints out whatever it is if the script is set to debugging 
     if (debugging) {
         console.log(inputtedString);
     }
-
 }
 
-http.createServer(function (req, res) {
+// Create a Node.js server
+const server = http.createServer(function (req, res) {
+    // Proxy requests to the tileserver
+    if (req.url.startsWith('/tiles/')) {
+        createProxyMiddleware({
+            target: 'http://localhost:8081', // Change to your tileserver URL if needed
+            changeOrigin: true,
+        })(req, res);
+        return;
+    }
+
     var filePath = path.join(__dirname, '..\\..\\..\\..\\CanSatThree\\GroundStation\\Website', req.url);
     if (filePath === path.join(__dirname, '..\\..\\..\\..\\CanSatThree\\GroundStation\\Website\\')) {
         filePath = path.join(__dirname, '..\\..\\..\\..\\CanSatThree\\GroundStation\\Website\\index.html');

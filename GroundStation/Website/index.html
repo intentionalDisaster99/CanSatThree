@@ -84,7 +84,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Another row -->
             <!-- Row for Temperature and Orientation -->
             <div class="row t-m-content-row tm-mt-big">
                 <div class="col-md-6">
@@ -99,6 +98,26 @@
                         <div id="chart"></div>
                     </div>
                 </div>
+                
+            </div>
+
+            <!-- Row for GPS Stuff -->
+            <div class="row t-m-content-row tm-mt-big">
+                <div class="col-md-6">
+                    <div id="gps-container" class="tm-block" style="background-color: rgba(211, 211, 211, 0.1); height: 70vh;">
+                        <h2 class="tm-block-title card-title card-title-darkMode">Location</h2>
+
+                        <!-- We want two headers, one with latitude and one with longitude -->
+                        <div id="coord-container" style="align-content: center; margin-top:23%">
+                            <h6 id="lat" class="coord">Latitude: </h6>
+                            <br>
+                            <h6 id="long" class="coord" style="color:black">Longitude: </h6>
+                        </div>
+
+                        
+                    </div>
+                </div>
+                
             </div>
             <footer class="row tm-mt-small">
                 <div class="col-12 font-weight-light">
@@ -118,16 +137,16 @@
     <script src="js/pressureGraph.js"></script>
     <script src="js/temperaturegraph.js"></script>
     <script src="js/orientationGraph.js"></script>
+    <!-- The GPS js -->
+    <script src="js/gps.js"></script>
     <!-- The battery's js-->
     <script src="js/battery.js"></script>    
     <!-- Connecting the XBeeConnect.js to the node server -->
      <!-- <script src="js/bundle.js"></script> -->
     <!-- Adding in any active styling -->
     <script src="js/styling.js"></script>
-    <!-- The GPS js -->
-    <script scr="js/gps.js"></script>
-    <!-- The GPS style stuff -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+
 
 
 
