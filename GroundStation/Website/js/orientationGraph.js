@@ -161,9 +161,9 @@
     // Add new data point with time and orientation when user clicks
     function graphOrientation(event) {
         now = new Date();
-        yawData.push(event.clientY / 1000 * 180);  // Simulate new yaw value
-        rollData.push(event.clientX / 1000 * 180);  // Simulate new roll value
-        pitchData.push((event.clientY - event.clientX) / 1000 * 180); // Simulate new pitch value
+        yawData.push(event.clientY / 1000 * 90);  // Simulate new yaw value
+        rollData.push(event.clientX / 1000 * 90);  // Simulate new roll value
+        pitchData.push((event.clientY - event.clientX) / 1000 * 90); // Simulate new pitch value
         times.push(now);  // Push the new Date object
 
         // Set the time of the first data point
