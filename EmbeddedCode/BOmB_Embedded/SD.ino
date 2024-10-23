@@ -28,7 +28,7 @@ void setupSD() {
 }
 
 void saveToSD(String message) {
-  // Send data to OpenLog via UART0
+    // Send data to OpenLog via UART0
   Serial1.println(message);
 
 } 

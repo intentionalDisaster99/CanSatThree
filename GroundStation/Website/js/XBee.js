@@ -25,15 +25,15 @@ function displayData(data) {
     // First things first, checking the teamID to make sure it matches
     var teamIDFound = getNextData(data);
     if (teamIDFound == TEAM_ID) {
-        console.log("Correct Packet Received");
+        // console.log("Correct Packet Received");
     } else {
-        console.log("Incorrect Team ID Identified:");
-        console.log(teamIDFound);
+        // console.log("Incorrect Team ID Identified:");
+        // console.log(teamIDFound);
     }
 
     // Saving the time because we will be using it for basically all of the data
     var time = getNextData(data);
-    console.log("Time: " + time);
+    // console.log("Time: " + time);
 
     // Checking the packet count against the last one to make sure none have been skipped
     var incomingPacketNumber = getNextData(data);
@@ -77,14 +77,14 @@ function getNextData(data) {
 
 
 
-// Testing the display data function 
-var count = 0;
-var state = "N";
-setInterval((x => {
+// Testing the display data function
+// var count = 0;
+// var state = "N";
+// setInterval((x => {
 
-    count++;
-    if (count > 5) state = "R";
+//     count++;
+//     if (count > 5) state = "R";
 
-    displayData("CanSat Team 3, MISSION_TIME, " + count + ", SW_STATE, " + state + ", ALTITUDE, TEMP, VOLTAGE, GPS_LATITUDE, GPS_LONGITUDE, GYRO_R, GYRO_P, GYRO_Y\n")
+//     displayData("CanSat Team 3, MISSION_TIME, " + count + ", SW_STATE, " + state + ", ALTITUDE, TEMP, VOLTAGE, GPS_LATITUDE, GPS_LONGITUDE, GYRO_R, GYRO_P, GYRO_Y\n")
 
-}), 1000);
+// }), 1000);

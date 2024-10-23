@@ -71,11 +71,11 @@ String getTempPressAlt() {
 
 // A function to just get the altitude so that we can check how high off the ground it is
 double getAltitude() {
-  // return bmp.readAltitude(SEALEVELPRESSURE_HPA);
-  if (testingAlt < 10) {
-    testingAlt += 1;
-  } else if (testingAlt )
-  return testingAlt;
+  return bmp.readAltitude(SEALEVELPRESSURE_HPA);
+  // if (testingAlt < 10) {
+  //   testingAlt += 1;
+  // } else if (testingAlt )
+  // return testingAlt;
 }
 
 

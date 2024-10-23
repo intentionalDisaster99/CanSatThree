@@ -107,6 +107,7 @@ const port1 = new SerialPort({
 
 // Handle incoming data frames
 port1.on('data', function (data) {
+    console.log("Raw data has been received.")
     xbeeAPI.parseRaw(data);
 });
 
@@ -134,7 +135,7 @@ port1.on('open', function () {
 // Listen for incoming data frames
 xbeeAPI.on("frame_object", function (frame) {
 
-    debug("Received frame:", frame);
+    console.log("Received frame:", frame);
     // Process the incoming frame here
     if (frame.type === C.FRAME_TYPE.ZIGBEE_RECEIVE_PACKET) {
         data += frame.data.toString('utf8');
@@ -149,8 +150,10 @@ xbeeAPI.on("frame_object", function (frame) {
             // Resetting the data that we got to be ready for the next packet
             data = "";
         }
-        debug(data);
+
     }
+    console.log(data);
+
 });
 
 // Error handling for the serial port

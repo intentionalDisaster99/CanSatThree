@@ -18,6 +18,7 @@
 // Ask about the format of the team_id, right now I just guessed/
 // Ask about the time, and whether or not we are going to be just updating it from the starting time of the thing
 // Ask whether it is okay if we just use the log file that I know we can access at this point. It would still be in CSV syntax 
+// We apparently get altitude from two sensors, the GPS and the Temperature and pressure sensor, which should we use? Should we average them?
 
 /*
 
@@ -46,6 +47,7 @@ String state;
 
 // CONSTANTS
 const int buzzerPin = 18;
+const int voltagePin = 26;
 
 
 void setup() {
@@ -57,7 +59,7 @@ void setup() {
   setupTempPressAlt();
 
   // Setting up the GPS
-  // setupGPS();
+  setupGPS();
 
   // Setting up the orientation sensor
   setupOrient();
@@ -67,6 +69,9 @@ void setup() {
 
   // Setting up the servo
   setupServo();
+
+  // Setting up the XBee
+  setupXBee();
 
   // Recording the starting time so that the updates can work
   lastUpdate = millis();
@@ -81,7 +86,13 @@ void setup() {
   state = "LAUNCH_READY";
 
   // Setting up the buzzer
-  pinMode(buzzerPin, OUTPUT );
+  pinMode(buzzerPin, OUTPUT);
+
+  // Making sure the buzzer DOES NOT GO OFF RIGHT AWAY
+  digitalWrite(buzzerPin, LOW);
+
+  // Setting up the voltage reading
+  pinMode(voltagePin, INPUT);
 
 }
 
@@ -126,17 +137,18 @@ void loop() {
 
     // Calling the stuff to get everything from the sensors
 
-    // Getting the orientation data
-    data += getOrientData();
-
     // Getting the temperature and pressure data
     data += getTempPressAlt();
 
+    // Getting the voltage
+    data += String((analogRead(voltagePin)-369) * 6.6 / 369, 2);
+    Serial.println("Voltage " + String((analogRead(voltagePin)-369) * 6.6 / 369, 2));
 
+    // Getting positional data
+    data += getPosition();
 
-    
-
-    
+    // Getting the orientation data
+    data += getOrientData();
 
     // Saving the data to the SD card
     saveToSD(data);
@@ -145,7 +157,8 @@ void loop() {
     Serial.println("Successfully saved to SD card:");
     Serial.println(data);
 
-
+    // Sending it to the ground station
+    sendToXBee(data);
 
     // Updating the state of the cansat
     // LAUNCH_READY, ASCENT, SEPARATE, DESCENT, LANDED
@@ -160,7 +173,7 @@ void loop() {
       state = "DESCENT";
     } else if (altitude < startingAltitude + 10 && state != "LAUNCH_READY") {
       state = "LANDED";
-      startBuzzer();
+      digitalWrite(buzzerPin, HIGH); // Turning on the buzzer
     }
 
 

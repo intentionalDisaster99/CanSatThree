@@ -21,7 +21,7 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, &Wire1);
 void setupOrient() {
   
   // Setting up the custom pins
-  Wire.end();
+  // Wire.end();
   Wire1.setSDA(6);  // Set GPIO 6 as SDA
   Wire1.setSCL(7);  // Set GPIO 7 as SCL
   Wire1.begin();    // Start I2C with these pins
@@ -58,7 +58,7 @@ String getOrientData() {
   /* The processing sketch expects data as roll, pitch, heading */
   output += String(event.orientation.x) + ", ";  // Heading
   output += String(event.orientation.y) + ", ";  // Roll
-  output += String(event.orientation.z);         // Pitch
+  output += String(event.orientation.z) + ", ";  // Pitch
 
   // Returning the output
   return output;
