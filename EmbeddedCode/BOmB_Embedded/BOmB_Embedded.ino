@@ -14,10 +14,11 @@
 #include <u-blox_config_keys.h>
 #include <u-blox_structs.h>
 
-///////////////////////////////////////////////////////////////////////////////////THINGS TO DO /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////THINGS TO DO /////////////////////////////////////
 // Ask about the format of the team_id, right now I just guessed/
 // Ask about the time, and whether or not we are going to be just updating it from the starting time of the thing
 // Ask whether it is okay if we just use the log file that I know we can access at this point. It would still be in CSV syntax 
+// Ask whether or not it would be a good idea to show the packets as they are coming in. I will be logging them, of course, but without opening the console it might be nice to see it
 
 /*
 
@@ -83,7 +84,7 @@ void loop() {
     // Setting up the telemetry that we want to send
     String data = "CanSat Team 3, ";
 
-    // Getting the time, which is weird, I think that we will have to either send the startting time up from the ground station?
+    // Getting the time, which is weird, I think that we will have to either send the starting time up from the ground station?
     // Formatting the time into hh:mm:ss.ss
     ////////////////////////////////////////////////////////////////////////////////////////////////////UPDATE TIMER FORMATTING STUFFS
     String time = "";

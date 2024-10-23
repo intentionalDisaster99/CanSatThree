@@ -139,8 +139,14 @@ xbeeAPI.on("frame_object", function (frame) {
     if (frame.type === C.FRAME_TYPE.ZIGBEE_RECEIVE_PACKET) {
         data += frame.data.toString('utf8');
         if (data.substring(data.length - 2) == "\\n") {
+
+            // Saving the stuff to the file
             fs.writeFileSync('telemetry.csv', data);
-            console.log("Saved:\n" + data);
+
+            // Calling the function to display the data
+            displayData(data);
+
+            // Resetting the data that we got to be ready for the next packet
             data = "";
         }
         debug(data);
@@ -172,3 +178,4 @@ function send(message) {
     });
 
 }
+

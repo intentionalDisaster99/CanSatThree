@@ -44,14 +44,26 @@
                                 <li>
                                     <div id="modeChange" onclick="changeBackground()" class="nav-link active" style="text-align: center; height: 100%;">Light Mode</div>
                                 </li>
+                                <li>
+                                    <div id="pl-state-indicator" class="nav-link active" style="text-align: center; height: 100%; background-color: crimson; width:25ex; margin-left:15%; text-wrap:nowrap">PAYLOAD UNRELEASED</div>
+                                </li>
                             </ul>
       
                         <!-- </div> -->
                     </nav>
                 </div>
             </div>
+
+            <!-- Row for the packet display-age -->
+             <div class="row t-m-content-row tm-mt-big">
+                <div class="tm-col" style="height: 3em; justify-content:center; align-items: center; width:100%; background-color: rgba(211, 211, 211, 0.1);">
+                
+                        <h2 id="packet-display" class="tm-block-title card-title card-title-darkMode" style="text-align:left; margin-top:0.95em; font-size:1.05em;" >Most Recent Packet: NONE RECEIVED</h2>
+                
+                </div>
+            </div>
             <!-- row -->
-            <div class="row t-m-content-row tm-mt-big">
+            <div class="row t-m-content-row tm-mt-big" style="margin-top:0%; width:100%;">
                 <div class="tm-col tm-col-big">
                     <div id="altitude-container" class="tm-block " style="background-color: rgba(211, 211, 211, 0.1); height: 70vh;">
                         <h2 class="tm-block-title card-title card-title-darkMode" >Altitude</h2>
@@ -143,6 +155,8 @@
     <script src="js/battery.js"></script>    
     <!-- Connecting the XBeeConnect.js to the node server -->
      <!-- <script src="js/bundle.js"></script> -->
+    <!-- The XBee js -->
+    <script src="js/XBee.js"></script>
     <!-- Adding in any active styling -->
     <script src="js/styling.js"></script>
     
