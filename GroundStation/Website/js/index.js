@@ -107,7 +107,6 @@ const port1 = new SerialPort({
 
 // Handle incoming data frames
 port1.on('data', function (data) {
-    console.log("Raw data has been received.")
     xbeeAPI.parseRaw(data);
 });
 
@@ -135,24 +134,21 @@ port1.on('open', function () {
 // Listen for incoming data frames
 xbeeAPI.on("frame_object", function (frame) {
 
-    console.log("Received frame:", frame);
+    // console.log("Received frame:", frame);
     // Process the incoming frame here
     if (frame.type === C.FRAME_TYPE.ZIGBEE_RECEIVE_PACKET) {
         data += frame.data.toString('utf8');
-        if (data.substring(data.length - 2) == "\\n") {
 
-            // Saving the stuff to the file
-            fs.writeFileSync('telemetry.csv', data);
+        // Saving the telemetry to the csv file
+        fs.appendFile('C:\\Users\\SamWh\\Documents\\Programming\\CanSatThree\\CanSatThree\\GroundStation\\Website\\js\\telemetry.csv', data + "\n", cb);
 
-            // Calling the function to display the data
-            displayData(data);
+        // Calling the function to display the data
+        displayData(data);
 
-            // Resetting the data that we got to be ready for the next packet
-            data = "";
-        }
+        // Resetting the data that we got to be ready for the next packet
+        data = "";
 
     }
-    console.log(data);
 
 });
 
@@ -182,3 +178,5 @@ function send(message) {
 
 }
 
+// This is just here so that fs doesn't scream at me
+function cb() { }
