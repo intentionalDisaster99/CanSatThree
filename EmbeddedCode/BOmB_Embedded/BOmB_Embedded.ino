@@ -111,11 +111,11 @@ void loop() {
     // Getting the time, which is weird, I think that we will have to either send the startting time up from the ground station?
     // Formatting the time into hh:mm:ss.ss
     ////////////////////////////////////////////////////////////////////////////////////////////////////UPDATE TIMER FORMATTING STUFFS
-    String time = "";
-    String hours = String(int(round(millis()/10000000))) + "00";
-    String min = String(int(round(millis()/100000))) + "00";
-    String sec = String(int(round(millis()/1000))) + "00";
-    String hundredths = String(int(round(millis()/10))) + "00";
+    // String time = "";
+    // String hours = String(int(round(millis()/10000000))) + "00";
+    // String min = String(int(round(millis()/100000))) + "00";
+    // String sec = String(int(round(millis()/1000))) + "00";
+    // String hundredths = String(int(round(millis()/10))) + "00";
     
 
     // int min = round(millis()/100000);
@@ -123,7 +123,10 @@ void loop() {
     // int hundredths = round(millis()/10);
 
 
-    data += String(hours).substring(0, 2) + ":" + String(min).substring(0, 2) + ":" + String(sec).substring(0, 2) + "." + String(hundredths).substring(0, 2) + ", ";
+    // data += String(hours).substring(0, 2) + ":" + String(min).substring(0, 2) + ":" + String(sec).substring(0, 2) + "." + String(hundredths).substring(0, 2) + ", ";
+
+    // Adding in the time, but with better formatting
+    data += formatTime(millis());
 
     // Adding the packet count
     data += String(packetCount) + ", ";
@@ -180,22 +183,20 @@ void loop() {
     // Incrementing the packetCount
     packetCount++;
 
-  //////////////////////////////////////////////////////////////////////////////FOR DEBUGGING//////////////////////////
-    // if (packetCount > 5 && state == "N, ") {
-    //   pullInServo();
-
-    // }
-
-
-
-   
-
   }
     
-
 }
 
+// A function that formats the time to match what we want
+String formatTime(long time) {
 
+  // These should all evaluate to integers because of integer division
+  int hours = (time / 3600 / 60);  
+  int minutes = ((time - (hours * (3600*60))) / 3600);
+  double secs = (double(time) - hours * 3600 * 60 - minutes * 3600) / 100;
+
+  return String(hours) + ", " + String(minutes) + ", " + String(secs, 2) + ", ";
+}
 
 
 

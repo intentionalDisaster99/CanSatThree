@@ -1,35 +1,21 @@
-// Define the UART port for Raspberry Pi Pico (UART0 in this case)
-#define SERIAL_PORT Serial1  // Change this to Serial0 for UART0
 
-// #include <string>
-
-
-
+#define OPENLOG_SERIAL Serial2 // Using Serial2 for OpenLog
 void setupSD() {
-  // Initialize the Serial monitor for debugging
-  Serial.begin(115200);
-  while (!Serial) {
-    ; // Wait for Serial monitor to open
-  }
+    // Initialize Serial2 for communication with OpenLog
+    OPENLOG_SERIAL.begin(9600);  // OpenLog typically uses 9600 baud rate
 
-  // Initialize the UART0 for communication with OpenLog (using TX=GP16, RX=GP17)
-  Serial1.setTX(16);  // Use GPIO16 for TX
-  Serial1.setRX(17);  // Use GPIO17 for RX
-  Serial1.begin(9600);  // OpenLog typically uses 9600 baud rate
+    // Allow some time for OpenLog to initialize
+    delay(2000);
 
-  // Allow some time for OpenLog to initialize
-  delay(2000);
-
-  // Sending the header file that shows the format of the data
-  Serial1.println("TEAM_ID, MISSION_TIME, PACKET_COUNT, SW_STATE, PL_STATE, ALTITUDE, TEMP, VOLTAGE, GPS_LATITUDE, GPS_LONGITUDE, GYRO_R, GYRO_P, GYRO_Y");
-
-  Serial.println("SD Ready");
-
+    // Sending the header file that shows the format of the data
+    OPENLOG_SERIAL.println("TEAM_ID, MISSION_TIME, PACKET_COUNT, SW_STATE, PL_STATE, ALTITUDE, TEMP, VOLTAGE, GPS_LATITUDE, GPS_LONGITUDE, GYRO_R, GYRO_P, GYRO_Y");
+    Serial.println("OpenLog initialized and header sent.");
 }
 
 void saveToSD(String message) {
-    // Send data to OpenLog via UART0
-  Serial1.println(message);
+    // Send data to OpenLog via Serial2
+    OPENLOG_SERIAL.println(message);
+    Serial.println("Message sent to OpenLog: " + message);
+}
 
-} 
 

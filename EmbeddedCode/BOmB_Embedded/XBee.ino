@@ -1,3 +1,4 @@
+
 #include <XBee.h>
 
 // Define the XBee serial communication using GPIO 0 and 1
@@ -12,7 +13,9 @@ void setupXBee() {
   Serial.println("XBee Communication Started");
 }
 
-void sendToXBee(String packet) {
+
+
+void send(String packet) {
 
   // Create an XBeeAddress64 object for the destination
   XBeeAddress64 addr64 = XBeeAddress64(0x0013A200, 0x41E01D8E);

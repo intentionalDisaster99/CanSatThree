@@ -10,7 +10,7 @@ int pos = 145;    // variable to store the servo position
 String openLogState;
 
 void setupServo() {
-  myservo.attach(9);  // attaches the servo on pin 9 to the Servo object
+  myservo.attach(22);  // attaches the servo on pin 9 to the Servo object
 
   // Moving the servo to the out position (a bunch of times to be sure)
   for (int i = 0; i < 100; i++) {
@@ -21,7 +21,7 @@ void setupServo() {
   openLogState = "N, ";
 
   // Telling them that the servo has been set up and retracted
-  Serial.begin(9600);
+  // Serial.begin(9600);
   Serial.println("Servo ready.");
 
 }
