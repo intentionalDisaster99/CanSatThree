@@ -103,7 +103,7 @@ var xTemperature = d3.scaleLinear()
     window.updateTemperature = function (temperatureData) {
         // Update X domain with the time range
         xTemperature.domain([0, d3.max(temperatureTimes)]);  // Update the X domain with new time range
-        yTemperature.domain([0, d3.max(temperatureData) + 10]);  // Update Y domain with new temperature data
+        yTemperature.domain([0, 50]);  // Update Y domain with new temperature data
 
         // Update the line
         pathTemperature.datum(temperatureData).attr("d", lineTemperature);

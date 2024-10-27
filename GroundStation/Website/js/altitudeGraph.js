@@ -19,7 +19,7 @@ var innerHeightAltitude = heightAltitude - marginAltitude.top - marginAltitude.b
 // X scale using d3.scaleLinear for time-based X-axis in seconds
 var xAltitude = d3.scaleLinear()
   .domain([0, 0])  // Initialize the domain with 0
-  .range([0, innerWidthAltitude]);
+  .range([0, 600]);
 
 (function () {
 
@@ -103,7 +103,7 @@ var xAltitude = d3.scaleLinear()
   window.updateAltitude = function (altitudeData) {
     // Update X domain with the time range
     xAltitude.domain([0, d3.max(altitudeTimes)]);  // Update the X domain with new time range
-    yAltitude.domain([0, d3.max(altitudeData) + 10]);  // Update Y domain with new altitude data
+    yAltitude.domain([0, 600]);  // Update Y domain with new altitude data
 
     // Update the line
     pathAltitude.datum(altitudeData).attr("d", lineAltitude);

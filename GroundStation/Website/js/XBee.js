@@ -1,8 +1,5 @@
-
-
 // Creating a date that represents mission start so that we can make a dateTime object for the graphs
 const MISSION_START_TIME = Date.now();
-
 
 // CONSTANTS
 var TEAM_ID = "CanSat Team 3";
@@ -10,10 +7,8 @@ var TEAM_ID = "CanSat Team 3";
 // Global variables
 var packetCount = 0;
 
-
 // The function that sends the data to each graph
 function displayData(data) {
-
     // FORMAT:
     // TEAM_ID,MISSION_TIME,PACKET_COUNT,SW_STATE,PL_STATE,ALTITUDE,TEMP,VOLTAGE,GPS_LATITUDE,GPS_LONGITUDE,GYRO_R,GYRO_P, GYRO_Y\n
 
@@ -21,34 +16,39 @@ function displayData(data) {
     console.log(data);
 
     // Changing it to an object so that we can do pass by reference
-    data = { value: data };
 
     // Showing the data on the website
     var showing = document.getElementById("packet-display");
-    showing.textContent = "Most Recent Packet: " + data.value;
+    showing.textContent = "Most Recent Packet: " + data.toString();;
 
     // First things first, checking the teamID to make sure it matches
-    var teamIDFound = getNextData(data);
-    if (teamIDFound == TEAM_ID) {
-        // Only use this for debugging, otherwise it gets messy
-        // console.log("Correct Packet Received");
-    } else {
-        console.log("Incorrect Team ID Identified:");
-        console.log(teamIDFound);
-    }
+    var teamIDFound = data[0];
+    // if (teamIDFound == TEAM_ID) {
+    // Only use this for debugging, otherwise it gets messy
+    // console.log("Correct Packet Received");
+    // } else {
+    // console.log("Incorrect Team ID Identified:");
+    // console.log(teamIDFound);
+    // }
 
     // Saving the time because we will be using it for basically all of the data
-    var time = Number(getNextData(data));
+    var temp = String(data[1]);
 
-    // console.log("Time: " + time);
+    // Now interpreting the time into seconds
+    var time = 0;
+    time = Number(temp.substring(0, 2)) * 3600 + Number(temp.substring(4, 6)) * 60 + Number(temp.substring(7, 9)) + Number(temp.substring(11, 13)) / 100;
+    // console.log(temp.substring(7, 9));
 
     // Checking the packet count against the last one to make sure none have been skipped
-    var incomingPacketNumber = getNextData(data);
-    if (packetCount != incomingPacketNumber) console.log("A packet has either been missed or come in the wrong order");
-    packetCount = Number(incomingPacketNumber) + 1;
+    var incomingPacketNumber = data[2];
+    // if (!(packetCount == incomingPacketNumber || packetCount - 1 == incomingPacketNumber)) { console.log("A packet has either been missed or come in the wrong order : " + incomingPacketNumber + " " + packetCount); }
+
+    if (packetCount == incomingPacketNumber) return;
+    packetCount = Number(incomingPacketNumber);
+
 
     // Showing the user the state of the payload
-    var swState = getNextData(data);
+    var swState = data[3];
     var SWindicator = document.getElementById("sw-state-indicator");
     if (swState == "LAUNCH_READY") {
         SWindicator.textContent = "LAUNCH READY";
@@ -63,107 +63,73 @@ function displayData(data) {
     }
     SWindicator.style = "text-align: center; height: 100%; background-color: chartreuse; width:25ex; margin-left:15%; text-wrap:nowrap";
 
-
     // Telling the user that the payload has been released if it has
     var indicator = document.getElementById("pl-state-indicator");
-    if (getNextData(data) == "R" && indicator.textContent != "PAYLOAD RELEASED") {
+    if (data[4] == "R" && indicator.textContent != "PAYLOAD RELEASED") {
         indicator.textContent = "PAYLOAD RELEASED";
         indicator.style = "text-align: center; height: 100%; background-color: chartreuse; width:25ex; margin-left:15%; text-wrap:nowrap";
     }
 
-
     // Updating the altitude graph
-    graphAltitude(time, Number(getNextData(data)));
+    graphAltitude(time, Number(data[5]));
 
     // Updating the temperature graph
-    graphTemperature(time, Number(getNextData(data)));
+    graphTemperature(time, Number(data[6]));
 
     // Updating the voltage graph
-    graphVoltage(time, Number(getNextData(data)));
+    console.log("Passing in " + (data[7]) + " as voltage.");
+    graphVoltage(time, Number(data[7]));
 
     // Updating the location
-    changeCoordinates(getNextData(data), getNextData(data));
+    changeCoordinates(Number(data[8]), Number(data[9]));
 
-    /. Is this a comment? ./
     // Updating the orientation data
-    var roll = getNextData(data);
-    var pitch = getNextData(data);
-    // console.log("");
-    var yaw = getNextData(data);
-    console.log("This is the yaw that we got " + yaw);
+    var roll = Number(data[10]);
+    var pitch = Number(data[11]);
+    var yaw = Number(data[12].substring(2));
     graphOrientation(time, roll, pitch, yaw);
-
-
-    console.log("Data yet to process:\n" + data.value);
-
-
+    console.log("Done graphing");
 
 }
 
-// A helper function to find the next data value from the packet
-function getNextData(data) {
+const csvUrl = 'http://localhost:8081/telemetry.csv';
 
-    // This will actually mutate the data though, so that will be interesting 
-    var commaIndex = data.value.indexOf(",");
-
-    // Adding in something for the last data point
-    if (commaIndex == -1) {
-        var output = data.value.substring(0);
-        console.log("Just got an index of -1, so it should be the last value: " + output + "\nAnd this is the value of the data " + data.value);
-        data.value = "";
-        return output;
-    }
-
-    // We want to get up to that index for the actual data we will return
-    var output = data.value.substring(0, commaIndex);
-
-    // We want to adjust the data to exclude that and one after it to account for the space
-    data.value = data.value.substring(commaIndex + 2);
-
-    // Returning the data we got
-    return output;
-
+// Function to fetch and display data from the CSV file
+function fetchAndDisplayData() {
+    fetch(csvUrl)
+        .then(response => response.text()) // Read CSV as text
+        .then(csvText => {
+            // Parse CSV text into rows
+            const rows = csvText.split('\n').map(row => row.split(','));
+            if (rows.length > 0 && rows[rows.length - 2] != undefined) {
+                // Get the most recent row of data and display it
+                displayData(rows[rows.length - 2]); // Display the last row
+            }
+        })
+        .catch(error => console.error('Error fetching CSV:', error));
 }
 
-// var testingCounter = -1;
-// var state = "LAUNCH_READY";
-// var PLState = "N";
-// var startingAltitude = 0;
+// Fetch and display data every second
+setInterval(fetchAndDisplayData, 1000);
 
+// Function to load and graph the CSV data on page load
+function loadAndGraphCsvData() {
+    fetch(csvUrl)
+        .then(response => response.text())
+        .then(csvText => {
+            // Parse CSV text into rows
+            const rows = csvText.split('\n').map(row => row.split(','));
 
-// function testing(event) {
+            // Check if there is data
+            if (rows.length > 1) {
+                // Start processing from the second line (skip headers)
+                for (let i = 1; i < rows.length - 1; i++) {
+                    displayData(rows[i]);
+                }
+            }
+        })
+        .catch(error => console.error('Error loading and graphing CSV data:', error));
+}
 
-
-//     // TEAM_ID,MISSION_TIME,PACKET_COUNT,SW_STATE,PL_STATE,ALTITUDE,TEMP,VOLTAGE,GPS_LATITUDE,GPS_LONGITUDE,GYRO_R,GYRO_P, GYRO_Y\n
-
-//     var x = event.clientX / 2;
-//     var y = 570 - event.clientY;
-
-//     var altitude = y;
-
-//     if (altitude < 510 && altitude > 10 && state != "DESCENT" && state != "LANDED" && state != "SEPARATE") { // If the altitude is more than 10 but less than 510 it is ascending
-//         state = "ASCENT";
-//     } else if (altitude >= startingAltitude + 510) { // If it is more than 510 meters up, it should be separating
-//         // Making sure that the servo is in
-//         // pullInServo();
-//         PLState = "R";
-//         state = "SEPARATE";
-//     } else if (altitude < startingAltitude + 510 && altitude > startingAltitude + 10 && (state == "SEPARATE" || state == "DESCENT")) {
-//         state = "DESCENT";
-//     } else if (altitude < startingAltitude + 10 && state != "LAUNCH_READY") {
-//         state = "LANDED";
-//         // digitalWrite(buzzerPin, HIGH); // Turning on the buzzer
-//     }
-
-//     var roll = x / 1000 * 180;
-//     var pitch = y * 18 / 100;
-//     var yaw = x != 0 ? (y / x) * 180 : 0.0;
-
-//     testingCounter++;
-//     var testingData = "CanSat Team 3, " + testingCounter + ", " + testingCounter + ", " + state + ", " + PLState + ", " + y + ", " + x + ", " + ((3 * x + y) / 4) + ", " + x + ", " + y + ", " + roll + ", " + pitch + ", " + yaw;
-
-//     displayData(testingData);
-
-// }
-
-// document.addEventListener("click", testing);
+// Call this function on page load
+window.onload = loadAndGraphCsvData;

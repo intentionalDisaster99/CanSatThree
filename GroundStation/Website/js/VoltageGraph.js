@@ -103,7 +103,7 @@ var xVoltage = d3.scaleLinear()
     window.updateVoltage = function (voltageData) {
         // Update X domain with the time range
         xVoltage.domain([0, d3.max(voltageTimes)]);  // Update the X domain with new time range
-        yVoltage.domain([0, d3.max(voltageData) + 10]);  // Update Y domain with new voltage data
+        yVoltage.domain([0, 6.6]);  // Update Y domain with new voltage data
 
         // Update the line
         pathVoltage.datum(voltageData).attr("d", lineVoltage);
@@ -140,6 +140,7 @@ var xVoltage = d3.scaleLinear()
 
 // Add new data point with time (seconds) and voltage when user clicks
 function graphVoltage(x, y) {
+    console.log("We have received the voltage value of " + String(y));
     voltageData.push(y);  // Add new voltage value
     voltageTimes.push(x);  // Push the new time in seconds
 

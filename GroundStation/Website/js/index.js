@@ -139,15 +139,19 @@ xbeeAPI.on("frame_object", function (frame) {
     if (frame.type === C.FRAME_TYPE.ZIGBEE_RECEIVE_PACKET) {
         data += frame.data.toString('utf8');
 
+        console.log("Data: " + data);
+
         // Saving the telemetry to the csv file
         fs.appendFile('C:\\Users\\SamWh\\Documents\\Programming\\CanSatThree\\CanSatThree\\GroundStation\\Website\\js\\telemetry.csv', data + "\n", cb);
 
         // Calling the function to display the data
-        displayData(data);
+        // displayData(data);
 
         // Resetting the data that we got to be ready for the next packet
         data = "";
 
+    } else {
+        console.log("A signal was but the data didn't match the right format.");
     }
 
 });
@@ -180,3 +184,19 @@ function send(message) {
 
 // This is just here so that fs doesn't scream at me
 function cb() { }
+
+// Allowing it to access the csv
+const express = require('express');
+const app = express();
+const cors = require('cors');
+
+app.use(cors()); // Allow all origins
+
+app.get('/telemetry.csv', (req, res) => {
+    // Serve the CSV file
+    res.sendFile('C:\\Users\\SamWh\\Documents\\Programming\\CanSatThree\\CanSatThree\\GroundStation\\Website\\js\\telemetry.csv');
+});
+
+app.listen(8081, () => {
+    console.log('Server running on port 8081');
+});
